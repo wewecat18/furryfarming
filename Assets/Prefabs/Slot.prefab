@@ -281,8 +281,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -8527568592950175283, guid: 064b9840e95a4c241a492ea0dbb9c415, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -305,12 +305,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   amount: 0
-  image: {fileID: 0}
+  image: {fileID: -8527568592950175283, guid: 064b9840e95a4c241a492ea0dbb9c415, type: 3}
   max: 0
   empty: 1
   maxAmount: 0
+  Desc: 
   amountText: {fileID: 845456070787602794}
   itemImage: {fileID: 5588011981857916891}
+  ItemImage: {fileID: 0}
+  ItemName: {fileID: 0}
+  ItemDesc: {fileID: 0}
+  EmptyS: {fileID: -8527568592950175283, guid: 064b9840e95a4c241a492ea0dbb9c415, type: 3}
   Selected: {fileID: 6187783684757089412}
   isSelected: 0
 --- !u!1 &6187783684757089412

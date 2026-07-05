@@ -11,29 +11,21 @@ public class TextControl : MonoBehaviour
     public float Speed = 0.02f;
     public GameObject Textbox;
     public GameObject HB;
-
+    public Image ChaSprite;
     private Coroutine write;
     private bool writing = false;
     private bool finish = false;
-
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!writing && !finish)
+            /*if (!writing && !finish)
             {
                 HB.SetActive(false);
                 Textbox.SetActive(true);
-                StartWriting(Message);
+                //StartWriting(Message);
             }
-            else if (writing)
+            else */if (writing)
             {
                 Skip();
             }
@@ -46,10 +38,10 @@ public class TextControl : MonoBehaviour
         }
         
     }
-
-    public void StartWriting(string newmessage)
+    public void StartWriting(string newmessage, Sprite ChaSpr)
     {
         Message = newmessage;
+        ChaSprite.sprite = ChaSpr;
 
         if (write != null)
         {
@@ -61,7 +53,6 @@ public class TextControl : MonoBehaviour
     {
         writing = true;
         TextData.text = "";
-
         foreach (char L in Message.ToCharArray())
         {
             TextData.text += L;

@@ -7,15 +7,15 @@ public class Inventory : MonoBehaviour
 {
     public GameObject Menu;
     public GameObject hotbar;
-    private bool actmenu = false;
+    public bool actmenu = false;
     public bool full;
     public ItemSlot[] IS;
     public ItemSlot[] HB;
-    
-    void Start()
+    public Object[] SO;
+    private void Start()
     {
-
-}
+        updatehotbar();
+    }
     void Update()
     {
         if (Input.GetButtonDown("Submit") && actmenu)
@@ -24,18 +24,30 @@ public class Inventory : MonoBehaviour
             Menu.SetActive(false);
             hotbar.SetActive(true);
             actmenu = false;
-           
-
-
         }
         else if (Input.GetButtonDown("Submit") && !actmenu)
         {
+            for (int i = 0; i < IS.Length; i++)
+            {
+                if (IS[i].amount <= 0)
+                {
+                    IS[i].emptyout(false);
+                }
+            }
             Time.timeScale = 0;
             Menu.SetActive(true);
             hotbar.SetActive(false);
             actmenu = true;
-            
-
+        }
+    }
+    public void UseItem(string ItemName)
+    {
+        for (int i = 0; i < SO.Length; i++)
+        {
+            if (SO[i].itemName == ItemName)
+            {
+                SO[i].UseItem();
+            }
         }
     }
     public void updatehotbar()
@@ -45,17 +57,26 @@ public class Inventory : MonoBehaviour
             ItemSlot Origin = IS[i];
             if (Origin.empty == false)
             {
-                HB[i].AddItem(Origin.name, Origin.amount, Origin.maxAmount, Origin.image, true);
+                HB[i].AddItem(Origin.name, Origin.amount, Origin.maxAmount, Origin.image, true, Origin.Desc);
             }
-            else
+            if (HB[i].amount <= 0)
             {
-                HB[i].empty = true;
-                HB[i].name = "";
-                HB[i].amount = 0;
+                HB[i].emptyout(true);
             }
         }
     }
-    public void AddItem(string name, int amount, int maxAmount, Sprite image)
+    public void updateStorage()
+    {
+        for (int i = 0; i < HB.Length; i++)
+        {
+            ItemSlot Origin = HB[i];
+            if (Origin.empty == false)
+            {
+                IS[i].AddItem(Origin.name, Origin.amount, Origin.maxAmount, Origin.image, true, Origin.Desc);
+            }
+        }
+    }
+    public void AddItem(string name, int amount, int maxAmount, Sprite image, string ItemDesc)
     {
         int i = 0;
         bool repetido = false;
@@ -75,15 +96,15 @@ public class Inventory : MonoBehaviour
                     {
                         int newAmount = (IS[j].amount + amount) - maxAmount;
                         int fill = maxAmount - IS[j].amount;
-                        IS[j].AddItem(name, fill, maxAmount, image, false);
+                        IS[j].AddItem(name, fill, maxAmount, image, false, ItemDesc);
                         repetido = false;
                         extra = true;
-                        AddItem(name, newAmount, maxAmount, image);
+                        AddItem(name, newAmount, maxAmount, image, ItemDesc);
                         break;
                     }
                     else
                     {
-                        IS[j].AddItem(name, amount, maxAmount, image, false);
+                        IS[j].AddItem(name, amount, maxAmount, image, false, ItemDesc);
                         break;
                     }
                 }
@@ -103,13 +124,13 @@ public class Inventory : MonoBehaviour
                             {
                                 int newAmount = (IS[i].amount + amount) - maxAmount;
                                 int fill = maxAmount - IS[i].amount;
-                                IS[i].AddItem(name, fill, maxAmount, image, false);
-                                AddItem(name, newAmount, maxAmount, image);
+                                IS[i].AddItem(name, fill, maxAmount, image, false, ItemDesc);
+                                AddItem(name, newAmount, maxAmount, image, ItemDesc);
                                 break;
                             }
                             else
                             {
-                                IS[i].AddItem(name, amount, maxAmount, image, false);
+                                IS[i].AddItem(name, amount, maxAmount, image, false, ItemDesc);
                                 break;
                             }
 
@@ -121,7 +142,6 @@ public class Inventory : MonoBehaviour
         }
         updatehotbar();
     }
-
     public void Isfull(string name, int maxAmount)
     {
         for (int i = 0; i < IS.Length; i++)

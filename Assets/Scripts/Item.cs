@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-  
     [SerializeField]
     private string ItemName;
     [SerializeField]
@@ -13,7 +12,9 @@ public class Item : MonoBehaviour
     private Sprite image;
     [SerializeField]
     private int maxAmount;
-
+    [TextArea]
+    [SerializeField]
+    private string ItemDesc;
     private Inventory InvManager;
     void Start()
     {
@@ -26,7 +27,7 @@ public class Item : MonoBehaviour
             InvManager.Isfull(name, maxAmount);
             if (InvManager.full == false)
             {
-                InvManager.AddItem(ItemName, amount, maxAmount, image);
+                InvManager.AddItem(ItemName, amount, maxAmount, image, ItemDesc);
                 Destroy(gameObject);
             }
         }
